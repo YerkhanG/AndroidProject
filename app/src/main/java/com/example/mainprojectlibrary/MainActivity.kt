@@ -10,9 +10,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mainprojectlibrary.databinding.ActivityMainBinding
+import com.example.mainprojectlibrary.viewModel.BookViewModel
 import com.example.mainprojectlibrary.views.BookListActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.zxing.integration.android.IntentIntegrator
@@ -22,6 +24,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    private val viewModel : BookViewModel by viewModels()
     private lateinit var binding : ActivityMainBinding
 
     //qr code scanner object
@@ -66,7 +69,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             if (result.contents == null) {
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show()
             } else {
-                binding.name.text = result.contents
+                try {
+                    // Converting the data to json format
+                    val obj = JSONObject(result.contents)
+
+                    // Show values in UI.
+                    binding.id.text = obj.getString("id")
+                    binding.title.text = obj.getString("title")
+                    binding.author.text = obj.getString("author")
+                    viewModel.saveBook(binding.title.text.toString(),binding.author.text.toString())
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+
+                    // Data not in the expected format. So, whole object as toast message.
+                    Toast.makeText(this, result.contents, Toast.LENGTH_LONG).show()
+                }
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)

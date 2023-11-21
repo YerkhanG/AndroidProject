@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mainprojectlibrary.MainActivity
 import com.example.mainprojectlibrary.R
 import com.example.mainprojectlibrary.databinding.ActivityBooksBinding
+import com.example.mainprojectlibrary.recycler.BookListAdapter
 import com.example.mainprojectlibrary.viewModel.BookViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +35,12 @@ class BookListActivity : AppCompatActivity() {
 
                 else -> {false}
             }
+        }
+
+        viewModel.bookLiveData.observe(this){
+            val adapter = BookListAdapter(listOf(it))
+            binding.listview.adapter = adapter
+            binding.listview.layoutManager = LinearLayoutManager(this)
         }
     }
 }

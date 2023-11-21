@@ -20,7 +20,6 @@ class BookViewModel @Inject constructor(
     private val repo : BookRepository
 ) : BaseViewModel() {
     val bookLiveData : LiveData<BookEntity> = repo.bookFlow.asLiveData()
-
     fun saveBook(book:String, author:String){
         launch(
             request = {
@@ -32,6 +31,13 @@ class BookViewModel @Inject constructor(
         launch(
             request = {
                 repo.deleteById(id)
+            }
+        )
+    }
+    fun getAll(){
+        launch(
+            request = {
+                repo.getAll()
             }
         )
     }
