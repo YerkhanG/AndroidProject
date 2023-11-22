@@ -13,7 +13,7 @@ interface BookRepository {
     suspend fun getByTitle(title : String) : List<BookEntity>
     suspend fun getAll() : List<BookEntity>
 
-    var bookFlow: Flow<BookEntity>
+    var bookFlow: Flow<List<BookEntity>>
 }
 class BookRepositoryImpl @Inject constructor(
     private val dao : BookDao
@@ -45,6 +45,6 @@ class BookRepositoryImpl @Inject constructor(
     }
 
 
-    override var bookFlow: Flow<BookEntity> = dao.getAllFlow()
+    override var bookFlow: Flow<List<BookEntity>> = dao.getAllFlow()
 
 }

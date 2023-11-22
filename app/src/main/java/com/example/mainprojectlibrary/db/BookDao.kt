@@ -15,7 +15,7 @@ interface BookDao {
     fun getAll(): List<BookEntity>
 
     @Query("Select * from books")
-    fun getAllFlow(): Flow<BookEntity>
+    fun getAllFlow(): Flow<List<BookEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(bookEntity: BookEntity)

@@ -20,9 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import com.journeyapps.barcodescanner.CaptureActivity
+import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONException
 import org.json.JSONObject
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val viewModel : BookViewModel by viewModels()
     private lateinit var binding : ActivityMainBinding
@@ -92,9 +93,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        qrScan!!.setPrompt("Scan a qr code")
-        qrScan!!.setOrientationLocked(false)
-        qrScan!!.initiateScan()
+        qrScan?.setPrompt("Scan a qr code")
+        qrScan?.setOrientationLocked(false)
+        qrScan?.initiateScan()
     }
 
 

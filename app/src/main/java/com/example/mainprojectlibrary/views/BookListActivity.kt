@@ -38,7 +38,7 @@ class BookListActivity : AppCompatActivity() {
         }
 
         viewModel.bookLiveData.observe(this){
-            val adapter = BookListAdapter(listOf(it))
+            val adapter = BookListAdapter(it)
             binding.listview.adapter = adapter
             binding.listview.layoutManager = LinearLayoutManager(this)
         }

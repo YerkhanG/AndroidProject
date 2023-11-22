@@ -19,7 +19,7 @@ import javax.inject.Inject
 class BookViewModel @Inject constructor(
     private val repo : BookRepository
 ) : BaseViewModel() {
-    val bookLiveData : LiveData<BookEntity> = repo.bookFlow.asLiveData()
+    val bookLiveData : LiveData<List<BookEntity>> = repo.bookFlow.asLiveData()
     fun saveBook(book:String, author:String){
         launch(
             request = {
