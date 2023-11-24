@@ -21,7 +21,7 @@ class BookListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        binding!!.bottomNavView.setOnItemSelectedListener {
+        binding?.bottomNavView?.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.page_1 -> {
                     val intent = Intent(this,MainActivity::class.java)

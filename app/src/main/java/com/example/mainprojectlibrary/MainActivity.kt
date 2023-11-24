@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bottomNavView.selectedItemId = R.id.page_1
-        binding!!.bottomNavView.setOnItemSelectedListener {
+        binding?.bottomNavView?.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.page_1 -> {
                     Toast.makeText(this, "Already selected", Toast.LENGTH_SHORT).show()
