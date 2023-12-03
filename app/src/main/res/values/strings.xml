@@ -9,4 +9,5 @@
     <string name="book">Book</string>
     <string name="library">Library</string>
     <string name="author">Author</string>
+    <string name="qr_scanner">QR Scanner</string>
 </resources>

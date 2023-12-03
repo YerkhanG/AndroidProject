@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mainprojectlibrary.MainActivity
 import com.example.mainprojectlibrary.R
 import com.example.mainprojectlibrary.databinding.ActivityBooksBinding
+import com.example.mainprojectlibrary.db.Book
 import com.example.mainprojectlibrary.recycler.BookListAdapter
 import com.example.mainprojectlibrary.viewModel.BookViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BookListActivity : AppCompatActivity() {
     private val viewModel : BookViewModel by viewModels()
     private val binding : ActivityBooksBinding by lazy { ActivityBooksBinding.inflate(layoutInflater)}
-
+    private val adapter = BookListAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -36,11 +37,11 @@ class BookListActivity : AppCompatActivity() {
                 else -> {false}
             }
         }
-
-        viewModel.bookLiveData.observe(this){
-            val adapter = BookListAdapter(it)
+        viewModel.loadingLiveData.observe(this){
             binding.listview.adapter = adapter
-            binding.listview.layoutManager = LinearLayoutManager(this)
         }
+
+        binding.listview.layoutManager = LinearLayoutManager(this)
+
     }
 }

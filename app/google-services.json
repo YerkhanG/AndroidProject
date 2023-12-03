@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "454557477845",
+    "firebase_url" : "https://libraryand-c967a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "libraryand-c967a",
+    "storage_bucket": "libraryand-c967a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454557477845:android:f01b8507654ad0c5ad6b5c",
+        "android_client_info": {
+          "package_name": "com.example.mainprojectlibrary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4dF1aKklUd3VVnsntu8sGMYPs_k6WqqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

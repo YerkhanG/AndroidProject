@@ -1,13 +1,11 @@
 package com.example.mainprojectlibrary.viewModel
 
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.example.mainprojectlibrary.db.BookEntity
-import com.example.mainprojectlibrary.repository.BookRepository
+import com.example.mainprojectlibrary.db.Book
+import com.example.mainprojectlibrary.repository.FireBaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,27 +15,26 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookViewModel @Inject constructor(
-    private val repo : BookRepository
+    private val repo : FireBaseRepository
 ) : BaseViewModel() {
-    val bookLiveData : LiveData<List<BookEntity>> = repo.bookFlow.asLiveData()
-    fun saveBook(book:String, author:String){
+    fun saveBook(book:Book){
         launch(
             request = {
-                repo.save(book,author)
+                repo.saveData(book)
             }
         )
     }
-    fun deleteById(id : Int){
+    fun removeBook(){
         launch(
             request = {
-                repo.deleteById(id)
+                repo.removeData()
             }
         )
     }
     fun getAll(){
         launch(
             request = {
-                repo.getAll()
+                repo.getData()
             }
         )
     }

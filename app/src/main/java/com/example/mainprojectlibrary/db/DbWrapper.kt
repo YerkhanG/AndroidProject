@@ -8,25 +8,28 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-interface BookDao {
-    val db: FirebaseDatabase
-        get() = FirebaseDatabase.getInstance()
-    fun getTableName(): String = "String"
-    fun getClassType(): Class<Book> = Book::class.java
-    private fun getDataLiveData1() = MutableLiveData<Book?>()
-    val getDataLiveData: LiveData<Book?>
-        get() = getDataLiveData1()
 
-    private fun updateLiveData1() = MutableLiveData<Book?>()
-    val updateLiveData: LiveData<Book?>
-        get() = updateLiveData1()
 
-    fun reference(){
+abstract class  DbWrapper<T> {
+    val db = FirebaseDatabase.getInstance()
+
+    protected abstract fun getTableName(): String
+
+    protected abstract fun getClassType(): Class<T>
+
+    private val _getDataLiveData = MutableLiveData<T?>()
+    val getDataLiveData: LiveData<T?> = _getDataLiveData
+
+    private val _updateLiveData = MutableLiveData<T?>()
+    val updateLiveData: LiveData<T?> = _updateLiveData
+
+    init {
         db.getReference(getTableName()).addValueEventListener(updateListener())
     }
+
     private fun updateListener() = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            updateLiveData1().postValue(snapshot.getValue(getClassType()))
+            _updateLiveData.postValue(snapshot.getValue(getClassType()))
         }
 
         override fun onCancelled(error: DatabaseError) {
@@ -35,7 +38,8 @@ interface BookDao {
             }
         }
     }
-    fun saveData(value: Book, successSave: ((Boolean) -> Unit)? = null) {
+
+    fun saveData(value: T, successSave: ((Boolean) -> Unit)? = null) {
         db.getReference(getTableName()).setValue(value) { error, _ ->
             successSave?.invoke(error == null)
             error?.let {
@@ -43,11 +47,13 @@ interface BookDao {
             }
         }
     }
+
     fun getData() {
         db.getReference(getTableName()).get().addOnSuccessListener {
-            getDataLiveData1().postValue(it.getValue(getClassType()))
+            _getDataLiveData.postValue(it.getValue(getClassType()))
         }
     }
+
     fun removeData() {
         db.getReference(getTableName()).removeValue()
     }

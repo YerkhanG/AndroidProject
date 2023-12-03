@@ -2,34 +2,42 @@ package com.example.mainprojectlibrary.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.mainprojectlibrary.databinding.ItemBookBinding
-import com.example.mainprojectlibrary.db.BookEntity
+import com.example.mainprojectlibrary.db.Book
 
-class BookListAdapter(
-    private val items : List<BookEntity?>
-) : RecyclerView.Adapter<BaseBookViewHolder<*,BookEntity?>>() {
+class BookListAdapter : ListAdapter<Book, BaseBookViewHolder<*, Book?>>(BookDiffUtils()) {
+
+    class BookDiffUtils : DiffUtil.ItemCallback<Book>() {
+        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    override fun onBindViewHolder(holder: BaseBookViewHolder<*, Book?>, position: Int) {
+        holder.bindView(getItem(position))
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseBookViewHolder<*, BookEntity?> {
-        val binding = ItemBookBinding.inflate(LayoutInflater.from(parent.context),parent, false)
-        return BookViewHolder(binding)
+    ): BaseBookViewHolder<*, Book?> {
+        return BookViewHolder(ItemBookBinding.inflate(LayoutInflater.from(parent.context),parent ,false))
     }
-
-    override fun onBindViewHolder(holder: BaseBookViewHolder<*, BookEntity?>, position: Int) {
-        holder.bindView(items[position])
-    }
-
-    override fun getItemCount(): Int = items.size
 
 }
 
 class BookViewHolder(override val binding : ItemBookBinding) :
-        BaseBookViewHolder<ItemBookBinding,BookEntity?>(binding){
+        BaseBookViewHolder<ItemBookBinding,Book?>(binding){
 
-    override fun bindView(item: BookEntity?) {
+    override fun bindView(item: Book?) {
         binding.title.text = item?.title
         binding.author.text =  item?.author
     }
